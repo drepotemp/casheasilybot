@@ -396,6 +396,127 @@ bot.action("do_tiktok", async (ctx) => {
     }
   });
 });
+bot.action("do_whatsapp", async (ctx) => {
+  queue.enqueue(async () => {
+    try {
+      await ctx.answerCbQuery();
+      await ctx.deleteMessage();
+      const taskInDb = await Task.find();
+      const task = taskInDb[0];
+
+      await bot.telegram.copyMessage(
+        ctx.from.id,
+        task.whatsapp.chatId,
+        task.whatsapp.messageId,
+        {
+          disable_web_page_preview: true,
+        }
+      );
+      taskSent = "Whatsapp";
+      ctx.reply("Click the button below to submit your screenshot👇", {
+        reply_markup: {
+          inline_keyboard: [
+            [
+              {
+                text: "Submit task",
+                callback_data: "submit",
+              },
+            ],
+          ],
+          resize_keyboard: true,
+        },
+      });
+    } catch (error) {
+      if (error.response.error_code == 400) {
+        ctx.reply("That task is unavailable for now. Come back later.");
+        console.log("Task message was deleted");
+      } else {
+        handleError(ctx, error);
+      }
+    }
+  });
+});
+
+bot.action("do_telegram", async (ctx) => {
+  queue.enqueue(async () => {
+    try {
+      await ctx.answerCbQuery();
+      await ctx.deleteMessage();
+      const taskInDb = await Task.find();
+      const task = taskInDb[0];
+
+      await bot.telegram.copyMessage(
+        ctx.from.id,
+        task.telegram.chatId,
+        task.telegram.messageId,
+        {
+          disable_web_page_preview: true,
+        }
+      );
+      taskSent = "Telegram";
+      ctx.reply("Click the button below to submit your screenshot👇", {
+        reply_markup: {
+          inline_keyboard: [
+            [
+              {
+                text: "Submit task",
+                callback_data: "submit",
+              },
+            ],
+          ],
+          resize_keyboard: true,
+        },
+      });
+    } catch (error) {
+      if (error.response.error_code == 400) {
+        ctx.reply("That task is unavailable for now. Come back later.");
+        console.log("Task message was deleted");
+      } else {
+        handleError(ctx, error);
+      }
+    }
+  });
+});
+bot.action("do_other", async (ctx) => {
+  queue.enqueue(async () => {
+    try {
+      await ctx.answerCbQuery();
+      await ctx.deleteMessage();
+      const taskInDb = await Task.find();
+      const task = taskInDb[0];
+
+      await bot.telegram.copyMessage(
+        ctx.from.id,
+        task.other.chatId,
+        task.other.messageId,
+        {
+          disable_web_page_preview: true,
+        }
+      );
+      taskSent = "Other";
+      ctx.reply("Click the button below to submit your screenshot👇", {
+        reply_markup: {
+          inline_keyboard: [
+            [
+              {
+                text: "Submit task",
+                callback_data: "submit",
+              },
+            ],
+          ],
+          resize_keyboard: true,
+        },
+      });
+    } catch (error) {
+      if (error.response.error_code == 400) {
+        ctx.reply("That task is unavailable for now. Come back later.");
+        console.log("Task message was deleted");
+      } else {
+        handleError(ctx, error);
+      }
+    }
+  });
+});
 
 bot.action("submit", async (ctx) => {
   queue.enqueue(async () => {
