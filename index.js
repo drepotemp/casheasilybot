@@ -364,6 +364,10 @@ bot.action("do_tiktok", async (ctx) => {
       const taskInDb = await Task.find();
       const task = taskInDb[0];
 
+      if (!task.tiktok) {
+        return await ctx.reply("No tiktok task yet. come back later");
+      }
+
       await bot.telegram.copyMessage(
         ctx.from.id,
         task.tiktok.chatId,
@@ -404,6 +408,10 @@ bot.action("do_whatsapp", async (ctx) => {
       const taskInDb = await Task.find();
       const task = taskInDb[0];
 
+      if(!task.whatsapp){
+        return await ctx.reply("No whatsapp task yet. come back later")
+      } 
+
       await bot.telegram.copyMessage(
         ctx.from.id,
         task.whatsapp.chatId,
@@ -436,7 +444,6 @@ bot.action("do_whatsapp", async (ctx) => {
     }
   });
 });
-
 bot.action("do_telegram", async (ctx) => {
   queue.enqueue(async () => {
     try {
@@ -444,6 +451,10 @@ bot.action("do_telegram", async (ctx) => {
       await ctx.deleteMessage();
       const taskInDb = await Task.find();
       const task = taskInDb[0];
+
+      if(!task.telegram){
+        return await ctx.reply("No telegram task yet. come back later")
+      }
 
       await bot.telegram.copyMessage(
         ctx.from.id,
@@ -484,6 +495,10 @@ bot.action("do_other", async (ctx) => {
       await ctx.deleteMessage();
       const taskInDb = await Task.find();
       const task = taskInDb[0];
+
+      if(!task.other){
+        return await ctx.reply("No other task yet. come back later")
+      }
 
       await bot.telegram.copyMessage(
         ctx.from.id,
@@ -532,7 +547,6 @@ Send the photo here, and we'll review it shortly.`);
     }
   });
 });
-
 bot.action("my_refers", async (ctx) => {
   queue.enqueue(async () => {
     try {
