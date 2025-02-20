@@ -758,6 +758,48 @@ bot.hears("📝 Tiktok task", async (ctx) => {
   });
 });
 
+bot.hears("📝 Telegram task", async (ctx) => {
+  if (!adminAuth(ctx)) {
+    return ctx.reply("You must be an admin to do this!");
+  }
+  queue.enqueue(async () => {
+    try {
+      adminState.takingTaskMessage = { active: true, taskType: "Telegram" };
+      await ctx.reply("Send me the telegram task.");
+    } catch (error) {
+      handleError(ctx, error);
+    }
+  });
+});
+
+bot.hears("📝 Whatsapp task", async (ctx) => {
+  if (!adminAuth(ctx)) {
+    return ctx.reply("You must be an admin to do this!");
+  }
+  queue.enqueue(async () => {
+    try {
+      adminState.takingTaskMessage = { active: true, taskType: "Whatsapp" };
+      await ctx.reply("Send me the whatsapp task.");
+    } catch (error) {
+      handleError(ctx, error);
+    }
+  });
+});
+
+bot.hears("📝 Other task", async (ctx) => {
+  if (!adminAuth(ctx)) {
+    return ctx.reply("You must be an admin to do this!");
+  }
+  queue.enqueue(async () => {
+    try {
+      adminState.takingTaskMessage = { active: true, taskType: "Other" };
+      await ctx.reply("Send me the other task.");
+    } catch (error) {
+      handleError(ctx, error);
+    }
+  });
+});
+
 bot.on("message", async (ctx) => {
   queue.enqueue(async () => {
     let messageRecieved = ctx.message;
@@ -788,7 +830,7 @@ bot.on("message", async (ctx) => {
       }
 
       //Saving task
-      if (adminState.takingTaskMessage.active) {
+      if (adminState?.takingTaskMessage?.active) {
         let task = await Task.find();
         let newTaskInstance = null;
         if (!task) {
