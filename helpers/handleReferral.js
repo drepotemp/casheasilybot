@@ -75,7 +75,7 @@ module.exports = handleReferral = async (ctx, bot) => {
       referrerMessage += `\n\n${name}`;
     }
 
-    referrerMessage += `\n\n💡 _Reward Only If Referral Joins All Our Groups And Channels_`;
+    referrerMessage += `\n\n💡 _Reward is Earned Only If Referral Joins Our Group And Channel`;
     await bot.telegram.sendMessage(referrer.chatId, referrerMessage, {
       parse_mode: "Markdown",
       disable_web_page_preview: true,

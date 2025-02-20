@@ -128,12 +128,12 @@ bot.action("verify_join", async (ctx) => {
           }
 
           //Credit referrer
-          whoReferredMe.balance += 500;
+          whoReferredMe.balance += 0.8;
           await whoReferredMe.save();
 
           //Notify referrer
-          const message = `You have recieved #500 from ${name}`;
-          await bot.telegram.sendMessage(whoReferredMe.chatId, message);
+          const message = `You have recieved *$0.8* from ${name}`;
+          await bot.telegram.sendMessage(whoReferredMe.chatId, message, {parse_mode:"Markdown"});
         }
       }
 
@@ -165,7 +165,7 @@ bot.hears("💰 Balance", async (ctx) => {
 
       const userDetails = await User.findOne({ chatId: ctx.from.id });
       if (userDetails) {
-        const message = `🙌🏻 *User = ${name}*\n\n💰 *Balance = #${userDetails.balance}*\n\n🪢 *Perform Tasks, Invite Friends To Earn More*`;
+        const message = `🙌🏻 *User = ${name}*\n\n💰 *Balance = $${userDetails.balance}*\n\n🪢 *Perform Tasks, Invite Friends To Earn More*`;
         await ctx.reply(message, { parse_mode: "Markdown" });
       }
     } catch (error) {
@@ -179,7 +179,7 @@ bot.hears("👩‍❤️‍👩 Invite", async (ctx) => {
     try {
       const userDetails = await User.findOne({ chatId: ctx.from.id });
       if (userDetails) {
-        const message = `🙌🏻 *Total Refers = ${userDetails.referrals.length} User(s)*\n\n🙌🏻 *Your Invite Link = ${userDetails.referralLink}*\n\n*🪢 Invite to Earn 500 Ngn Per Invite*`;
+        const message = `🙌🏻 *Total Refers = ${userDetails.referrals.length} User(s)*\n\n🙌🏻 *Your Invite Link = ${userDetails.referralLink}*\n\n*🪢 Invite to Earn $0.8 Per Invite*`;
         await ctx.reply(message, {
           parse_mode: "Markdown",
           disable_web_page_preview: true,
@@ -223,28 +223,24 @@ bot.hears("🖨️ Withdrawal Record", async (ctx) => {
   });
 });
 
-bot.hears("✍️ About CASH EASILY", async (ctx) => {
+bot.hears("✍️ About DEXHALE ADS", async (ctx) => {
   queue.enqueue(async () => {
     try {
-      const message = `✅ WELCOME TO CASH EASILY EARNINGS PLATFORM 💸💸
+      const message = `*✅ WELCOME TO DEXHALE ADS 💸💸*
 
+EARN A WHOOPING OF $0.8 FOR EVERY PERSON YOU REFER 🧒🧒
 
-EARN A WHOPPING OF 200NAIRA FOR EVERY PERSON YOU REFER TO OUR PLATFORM 🧒🧒
+Use the bot everyday and earn a daily bonus of $0.4💴
 
-WITH A MINIMUM WITHDRAWAL OF 3,000 NAIRA REACHING YOUR EARNINGS GOAL IS WITHIN YOUR CUSTODY ✅
+Complete tasks daily and watch your earnings grow with each successful accomplishment. 🚀💰
 
-COMPLETE TASK RANGING FROM 100NAIRA TO 200NAIRA AND WATCH YOUR EARNINGS GROW WITH EACH ACCOMPLISHMENT 😲😲
+@dexhale 
 
-
-JOIN US ON OUR EXCITING JOURNEY TO GROW YOUR FINANCIAL SUCCESS AND LET BLAST OUR WAYS OF SUCCESS TOGETHER
-
-@Casheasilybot
-
-https://t.me/+OUemRtuIJQw3MTA0
-
-Your happiness is ours`;
+https://t.me/dexhaletechs
+`;
       await ctx.reply(message, {
         disable_web_page_preview: true,
+        parse_mode:"Markdown"
       });
     } catch (error) {
       handleError(ctx, error);
@@ -304,9 +300,9 @@ bot.hears("📊 Statistics", async (ctx) => {
       const message = `
       📊 Total members : ${allUsers.length} Users
       
-➕ Total successful Withdraw : 10,000  
+➕ Total successful withdrawals : $0  
       
-📲Bot coding was developed by @dexhaletechs📲`;
+📲Bot was developed by @dexhaletechs📲`;
       await ctx.reply(message);
     } catch (error) {
       handleError(ctx, error);
@@ -322,10 +318,10 @@ bot.hears("🎁 Daily Bonus", async (ctx) => {
       //If user hasn't claimed before
       if (!lastClaimTime) {
         const message = `
-        🎁 Congrats! *You received ₦100 as your bonus.*
+        🎁 Congrats! *You've received a bonus of $0.4*
         
         🔍 Check back after 24 hours to claim again!`;
-        userDetails.balance += 100;
+        userDetails.balance += 0.4;
         userDetails.lastBonusDate = new Date();
         await userDetails.save();
 
@@ -339,10 +335,10 @@ bot.hears("🎁 Daily Bonus", async (ctx) => {
         );
       } else {
         const message = `
-        🎁 Congrats! *You received ₦100 as your bonus.*
+        🎁 Congrats! *You've received a bonus of $0.4*
         
         🔍 Check back after 24 hours to claim again!`;
-        userDetails.balance += 100;
+        userDetails.balance += 0.4;
         userDetails.lastBonusDate = new Date();
         await userDetails.save();
 
@@ -408,9 +404,9 @@ bot.action("do_whatsapp", async (ctx) => {
       const taskInDb = await Task.find();
       const task = taskInDb[0];
 
-      if(!task.whatsapp){
-        return await ctx.reply("No whatsapp task yet. come back later")
-      } 
+      if (!task.whatsapp) {
+        return await ctx.reply("No whatsapp task yet. come back later");
+      }
 
       await bot.telegram.copyMessage(
         ctx.from.id,
@@ -452,8 +448,8 @@ bot.action("do_telegram", async (ctx) => {
       const taskInDb = await Task.find();
       const task = taskInDb[0];
 
-      if(!task.telegram){
-        return await ctx.reply("No telegram task yet. come back later")
+      if (!task.telegram) {
+        return await ctx.reply("No telegram task yet. come back later");
       }
 
       await bot.telegram.copyMessage(
@@ -496,8 +492,8 @@ bot.action("do_other", async (ctx) => {
       const taskInDb = await Task.find();
       const task = taskInDb[0];
 
-      if(!task.other){
-        return await ctx.reply("No other task yet. come back later")
+      if (!task.other) {
+        return await ctx.reply("No other task yet. come back later");
       }
 
       await bot.telegram.copyMessage(
