@@ -656,7 +656,7 @@ bot.command("admin_mode", async (ctx) => {
 
 bot.command("user_mode", async (ctx) => {
   if (!adminAuth(ctx)) {
-    return ctx.reply("You must be an admin to do this!");
+    return ctx.reply("You are in user mode🙂");
   }
   queue.enqueue(async () => {
     try {
