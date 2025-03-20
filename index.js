@@ -881,7 +881,7 @@ bot.on("message", async (ctx) => {
 });
 
 bot.telegram.setMyCommands([
-  { command: "start", description: "Start the Casheasily Bot" },
+  { command: "start", description: "Start Dexhale Ad Bot" },
   { command: "admin_mode", description: "Enter admin mode(admins only)" },
   { command: "user_mode", description: "Enter user mode(admins only)" },
 ]);
